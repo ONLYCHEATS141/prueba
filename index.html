@@ -228,6 +228,60 @@
     font-size:1.25rem; font-weight:700; color:var(--paper);
   }
 
+  /* ---------- Weather ---------- */
+  .weather-section{
+    padding:6rem 6vw;
+    max-width:1180px; margin:0 auto;
+    border-top:1px solid var(--line);
+  }
+  .weather-note{
+    text-align:center;
+    max-width:560px; margin:-1.6rem auto 0;
+    font-size:0.85rem;
+    color:rgba(245,237,224,0.5);
+  }
+  .weather-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:1.1rem;
+    margin-top:3rem;
+  }
+  .weather-card{
+    background:linear-gradient(160deg, var(--paper-2), var(--paper));
+    color:var(--ink);
+    border-radius:14px;
+    padding:1.5rem 1.5rem 1.6rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .weather-card::before{
+    content:attr(data-ico);
+    position:absolute; top:-6px; right:-2px;
+    font-size:3.6rem;
+    opacity:0.14;
+  }
+  .weather-card .wc-city{
+    font-family:'Noto Serif JP', serif;
+    font-size:1.25rem; font-weight:700;
+    margin-bottom:0.15rem;
+  }
+  .weather-card .wc-dates{
+    font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--seal-2); font-weight:700; margin-bottom:1.1rem;
+  }
+  .weather-card .wc-temps{
+    display:flex; align-items:baseline; gap:0.6rem; margin-bottom:0.5rem;
+  }
+  .weather-card .wc-high{
+    font-family:'Noto Serif JP', serif; font-size:1.9rem; font-weight:800;
+  }
+  .weather-card .wc-low{
+    font-size:1.05rem; color:rgba(15,18,16,0.5); font-weight:600;
+  }
+  .weather-card .wc-desc{
+    font-size:0.85rem; color:rgba(15,18,16,0.68); line-height:1.4;
+  }
+
   /* ---------- Flights ---------- */
   .flights-section{
     padding:6rem 6vw;
@@ -544,6 +598,7 @@
 
 <nav class="site-nav">
   <a href="#vuelos">Vuelos</a>
+  <a href="#clima">Clima</a>
   <a href="#japon">Japón</a>
   <a href="#corea">Corea</a>
   <a href="#china">China</a>
@@ -699,6 +754,68 @@
         </div>
       </div>
       <div class="bp-stub"><span class="tkt">BOARDING</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CLIMA ============ -->
+<section class="weather-section" id="clima">
+  <div class="section-heading">
+    <div class="eyebrow">Clima</div>
+    <h2>Qué tiempo hace en cada sitio</h2>
+  </div>
+  <p class="weather-note">Aún faltan más de 30 días para el viaje, así que esto es el clima habitual de cada ciudad en esas fechas (media histórica), no un pronóstico exacto todavía.</p>
+
+  <div class="weather-grid">
+
+    <div class="weather-card" data-ico="🌤️">
+      <div class="wc-city">Tokio</div>
+      <div class="wc-dates">2 – 4 Sep</div>
+      <div class="wc-temps"><span class="wc-high">28°C</span><span class="wc-low">21°C noche</span></div>
+      <div class="wc-desc">Cálido y húmedo, con posibilidad de lluvia o algún tifón residual.</div>
+    </div>
+
+    <div class="weather-card" data-ico="☀️">
+      <div class="wc-city">Kioto</div>
+      <div class="wc-dates">5 – 7 Sep</div>
+      <div class="wc-temps"><span class="wc-high">29°C</span><span class="wc-low">21°C noche</span></div>
+      <div class="wc-desc">Todavía caluroso y húmedo, típico de principios de septiembre.</div>
+    </div>
+
+    <div class="weather-card" data-ico="🌦️">
+      <div class="wc-city">Osaka</div>
+      <div class="wc-dates">8 – 10 Sep</div>
+      <div class="wc-temps"><span class="wc-high">29°C</span><span class="wc-low">22°C noche</span></div>
+      <div class="wc-desc">Calor y humedad similares a Kioto, con opción de lluvias puntuales.</div>
+    </div>
+
+    <div class="weather-card" data-ico="🌥️">
+      <div class="wc-city">Seúl</div>
+      <div class="wc-dates">11 – 13 Sep</div>
+      <div class="wc-temps"><span class="wc-high">26°C</span><span class="wc-low">17°C noche</span></div>
+      <div class="wc-desc">Empieza a refrescar, humedad más baja y noches agradables.</div>
+    </div>
+
+    <div class="weather-card" data-ico="🍂">
+      <div class="wc-city">Pekín</div>
+      <div class="wc-dates">14 – 16 Sep</div>
+      <div class="wc-temps"><span class="wc-high">26°C</span><span class="wc-low">15°C noche</span></div>
+      <div class="wc-desc">Clima seco y agradable, una de las mejores épocas del año para visitarla.</div>
+    </div>
+
+    <div class="weather-card" data-ico="🌤️">
+      <div class="wc-city">Shanghái</div>
+      <div class="wc-dates">17 – 19 Sep</div>
+      <div class="wc-temps"><span class="wc-high">27°C</span><span class="wc-low">22°C noche</span></div>
+      <div class="wc-desc">Cálido con humedad moderada y posibilidad de algún chubasco.</div>
+    </div>
+
+    <div class="weather-card" data-ico="⛈️">
+      <div class="wc-city">Hong Kong</div>
+      <div class="wc-dates">20 – 22 Sep</div>
+      <div class="wc-temps"><span class="wc-high">30°C</span><span class="wc-low">26°C noche</span></div>
+      <div class="wc-desc">Húmedo y caluroso, todavía dentro de temporada de tifones.</div>
     </div>
 
   </div>
