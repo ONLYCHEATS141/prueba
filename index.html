@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viaje 01/09/2026 · Asia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1210;
+    --ink-2:#171B18;
+    --paper:#F5EDE0;
+    --paper-2:#EFE4D2;
+    --seal:#B8342F;
+    --seal-2:#8E2521;
+    --gold:#C9A24B;
+    --tea:#4A6B4E;
+    --line: rgba(245,237,224,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{
+    font-family:'Noto Serif JP', serif;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  a{color:inherit;}
+
+  /* ---------- Textures ---------- */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:2; opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- Header / Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:8vh 6vw;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(184,52,47,0.10), transparent 45%),
+      radial-gradient(circle at 80% 75%, rgba(201,162,75,0.08), transparent 45%),
+      var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:1.4rem;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 6.2rem);
+    line-height:1.02;
+    margin:0 0 0.6rem;
+    font-weight:900;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 span{color:var(--seal);}
+  .hero .sub{
+    font-size:clamp(1rem, 2vw, 1.3rem);
+    color:rgba(245,237,224,0.75);
+    max-width:640px;
+    margin:0.6rem 0 2.6rem;
+    font-weight:400;
+  }
+  .price-seal{
+    position:relative;
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:190px;height:190px;
+    border:2px solid var(--seal);
+    border-radius:50%;
+    transform:rotate(-6deg);
+    margin-bottom:2.6rem;
+  }
+  .price-seal::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:1px dashed rgba(184,52,47,0.55);
+    border-radius:50%;
+  }
+  .price-seal .amount{
+    font-family:'Noto Serif JP', serif;
+    font-size:2.1rem;
+    font-weight:800;
+    color:var(--paper);
+    transform:rotate(6deg);
+  }
+  .price-seal .amount small{
+    font-size:1rem; font-weight:600; color:var(--gold);
+  }
+  .price-seal .label{
+    font-size:0.62rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--seal);
+    transform:rotate(6deg);
+    margin-top:2px;
+  }
+
+  .trip-meta{
+    display:flex; flex-wrap:wrap; gap:2.2rem; justify-content:center;
+    font-size:0.92rem; color:rgba(245,237,224,0.82);
+  }
+  .trip-meta .item{display:flex; flex-direction:column; align-items:center; gap:0.3rem;}
+  .trip-meta .item b{font-family:'Noto Serif JP', serif; font-size:1.05rem; color:var(--paper);}
+  .trip-meta .divider{width:1px; background:var(--line); align-self:stretch;}
+
+  .scroll-hint{
+    position:absolute; bottom:2.4rem; left:50%; transform:translateX(-50%);
+    font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(245,237,224,0.4);
+    display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+    animation:float 2.4s ease-in-out infinite;
+  }
+  .scroll-hint::after{content:""; width:1px; height:26px; background:linear-gradient(to bottom, var(--gold), transparent);}
+  @keyframes float{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,6px);}}
+
+  /* ---------- Route line ---------- */
+  .route-section{
+    padding:6rem 6vw 4rem;
+    max-width:1180px; margin:0 auto;
+  }
+  .section-heading{
+    text-align:center; margin-bottom:3.2rem;
+  }
+  .section-heading .eyebrow{margin-bottom:0.8rem;}
+  .section-heading h2{
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    margin:0;
+  }
+
+  .route{
+    position:relative;
+    display:flex;
+    overflow-x:auto;
+    gap:0;
+    padding:2rem 0 3rem;
+    scrollbar-width:thin;
+  }
+  .route::-webkit-scrollbar{height:6px;}
+  .route::-webkit-scrollbar-thumb{background:var(--gold); border-radius:4px;}
+  .route-track{
+    position:absolute; top:64px; left:0; right:0; height:2px;
+    background:repeating-linear-gradient(to right, var(--gold) 0 10px, transparent 10px 18px);
+    z-index:0;
+  }
+  .stop{
+    flex:0 0 190px;
+    position:relative;
+    text-align:center;
+    padding-top:0;
+    z-index:1;
+  }
+  .stop .dot{
+    width:14px;height:14px;border-radius:50%;
+    background:var(--seal);
+    border:3px solid var(--ink);
+    box-shadow:0 0 0 2px var(--gold);
+    margin:57px auto 1.1rem;
+  }
+  .stop .country{
+    font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:0.3rem;
+  }
+  .stop .city{
+    font-family:'Noto Serif JP', serif;
+    font-size:1.25rem; font-weight:700; color:var(--paper);
+  }
+
+  /* ---------- Country sections ---------- */
+  .country{
+    padding:5rem 6vw;
+    border-top:1px solid var(--line);
+    position:relative;
+  }
+  .country::before{
+    content:attr(data-mark);
+    position:absolute;
+    top:2.5rem; right:6vw;
+    font-family:'Noto Serif JP', serif;
+    font-size:9rem;
+    font-weight:900;
+    color:rgba(245,237,224,0.035);
+    line-height:1;
+    pointer-events:none;
+    user-select:none;
+  }
+  .country-inner{max-width:1180px; margin:0 auto; position:relative; z-index:1;}
+  .country-title{
+    display:flex; align-items:baseline; gap:1rem; margin-bottom:0.4rem;
+  }
+  .country-title h2{
+    font-size:clamp(2rem,5vw,3.4rem);
+    margin:0;
+    font-weight:900;
+  }
+  .country-title .flagtag{
+    font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--seal); border:1px solid var(--seal); border-radius:999px;
+    padding:0.3rem 0.9rem;
+  }
+
+  .city-block{
+    margin-top:3.4rem;
+    padding-top:2.6rem;
+    border-top:1px solid var(--line);
+  }
+  .city-block:first-of-type{margin-top:2.6rem;}
+  .city-head{
+    display:flex; align-items:center; gap:0.9rem; margin-bottom:1.6rem;
+  }
+  .city-head .num{
+    font-family:'Noto Serif JP', serif;
+    font-size:0.95rem; color:var(--gold); border:1px solid var(--gold);
+    border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .city-head h3{
+    margin:0; font-size:1.7rem;
+  }
+
+  .two-col{
+    display:grid; grid-template-columns: 1.1fr 1fr; gap:2.6rem;
+  }
+  @media (max-width: 820px){ .two-col{grid-template-columns:1fr;} }
+
+  .checklist{list-style:none; margin:0; padding:0;}
+  .checklist li{
+    display:flex; align-items:flex-start; gap:0.8rem;
+    padding:0.62rem 0;
+    border-bottom:1px dashed var(--line);
+    font-size:0.98rem;
+    color:rgba(245,237,224,0.9);
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist .emo{font-size:1.15rem; flex-shrink:0;}
+
+  .food-panel{
+    background:linear-gradient(160deg, var(--paper-2), var(--paper));
+    color:var(--ink);
+    border-radius:14px;
+    padding:1.8rem 1.9rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .food-panel::before{
+    content:"食"; position:absolute; top:-14px; right:6px;
+    font-family:'Noto Serif JP', serif; font-size:6rem; color:rgba(184,52,47,0.08); font-weight:900;
+  }
+  .food-panel h4{
+    font-family:'Noto Serif JP', serif;
+    margin:0 0 1rem;
+    font-size:1.05rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--seal-2);
+  }
+  .food-grid{display:flex; flex-wrap:wrap; gap:0.5rem;}
+  .food-chip{
+    background:rgba(15,18,16,0.06);
+    border:1px solid rgba(15,18,16,0.12);
+    border-radius:999px;
+    padding:0.4rem 0.85rem;
+    font-size:0.86rem;
+    display:flex; align-items:center; gap:0.4rem;
+    white-space:nowrap;
+  }
+
+  /* ---------- Hotel changes ---------- */
+  .hotel-row{
+    display:grid;
+    grid-template-columns: 130px 1fr auto 1fr auto;
+    align-items:center;
+    gap:1rem;
+    padding:1rem 0;
+    border-bottom:1px solid var(--line);
+    font-size:0.92rem;
+  }
+  .hotel-row:last-child{border-bottom:none;}
+  .hotel-row .tag{
+    font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--gold); font-weight:700;
+  }
+  .hotel-row .old{color:rgba(245,237,224,0.45); text-decoration:line-through;}
+  .hotel-row .arrow{color:var(--seal); font-size:1.1rem;}
+  .hotel-row .new{color:var(--paper); font-weight:600;}
+  .hotel-row .price{
+    text-align:right; font-family:'Noto Serif JP', serif; color:var(--seal);
+    font-weight:700; white-space:nowrap;
+  }
+  .hotel-meta{font-size:0.78rem; color:rgba(245,237,224,0.5); display:block; margin-top:0.2rem;}
+  .smoke-yes{color:var(--tea);}
+  .smoke-no{color:rgba(245,237,224,0.4);}
+
+  @media (max-width:760px){
+    .hotel-row{grid-template-columns:1fr; text-align:left; gap:0.3rem;}
+    .hotel-row .price{text-align:left;}
+  }
+
+  .increase-banner{
+    margin-top:2.2rem;
+    display:inline-flex; align-items:center; gap:0.8rem;
+    background:rgba(184,52,47,0.12);
+    border:1px solid var(--seal);
+    border-radius:10px;
+    padding:0.9rem 1.4rem;
+    font-family:'Noto Serif JP', serif;
+    font-size:1.05rem;
+  }
+  .increase-banner b{color:var(--seal); font-size:1.25rem;}
+
+  /* ---------- Obligatorio ---------- */
+  .must{
+    padding:6rem 6vw;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(184,52,47,0.10), transparent 55%),
+      var(--ink-2);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .must-inner{max-width:1000px; margin:0 auto; text-align:center;}
+  .must h2{font-size:clamp(1.8rem,4vw,2.6rem); margin-bottom:0.6rem;}
+  .must .sub{color:rgba(245,237,224,0.6); margin-bottom:3rem;}
+  .must-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:1rem;
+    text-align:left;
+  }
+  .must-card{
+    background:rgba(245,237,224,0.04);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:1.3rem 1.4rem;
+    display:flex; gap:0.9rem; align-items:flex-start;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .must-card:hover{transform:translateY(-3px); border-color:var(--gold);}
+  .must-card .emo{font-size:1.5rem;}
+  .must-card p{margin:0; font-size:0.95rem; line-height:1.4;}
+
+  /* ---------- Premium ---------- */
+  .premium{
+    padding:6rem 6vw;
+    max-width:1180px; margin:0 auto;
+  }
+  .premium-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:1.1rem;
+    margin-top:3rem;
+  }
+  .premium-card{
+    border:1px solid var(--gold);
+    border-radius:14px;
+    padding:1.6rem;
+    position:relative;
+    background:linear-gradient(160deg, rgba(201,162,75,0.08), transparent);
+  }
+  .premium-card::before{
+    content:"⭐";
+    position:absolute; top:-14px; left:1.4rem;
+    background:var(--ink); padding:0 0.4rem;
+    font-size:1.1rem;
+  }
+  .premium-card .emo{font-size:1.8rem; display:block; margin-bottom:0.7rem;}
+  .premium-card p{margin:0; font-size:1rem; font-weight:600; color:var(--paper);}
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:5rem 6vw 4rem;
+    text-align:center;
+    border-top:1px solid var(--line);
+  }
+  footer .stamp{
+    display:inline-flex; flex-direction:column; align-items:center;
+    border:2px solid var(--seal); border-radius:50%;
+    width:130px; height:130px; transform:rotate(-4deg);
+    margin-bottom:1.6rem;
+  }
+  footer .stamp span:first-child{
+    font-family:'Noto Serif JP', serif; font-size:0.85rem; letter-spacing:0.1em; color:var(--seal); margin-top:1.1rem;
+  }
+  footer .stamp span:last-child{
+    font-size:1.6rem; margin-top:0.3rem;
+  }
+  footer p{color:rgba(245,237,224,0.55); font-size:0.95rem; max-width:420px; margin:0 auto;}
+  footer .att{
+    margin-top:1.6rem; font-family:'Noto Serif JP', serif; font-style:italic; color:var(--gold); font-size:1.05rem;
+  }
+
+  .fade-in{
+    opacity:0; transform:translateY(18px);
+    animation:fadeUp 0.8s ease forwards;
+  }
+  @keyframes fadeUp{ to{opacity:1; transform:translateY(0);} }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="eyebrow">Salida · Martes 01 Sep 2026 · Barcelona – El Prat</div>
+  <h1>Japón · Corea del Sur <span>&</span> China</h1>
+  <p class="sub">24 días recorriendo Tokio, Kioto, Osaka, Seúl, Pekín, Shanghái y Hong Kong.</p>
+
+  <div class="price-seal">
+    <div class="amount">7.254<small>€</small></div>
+    <div class="label">Precio total</div>
+  </div>
+
+  <div class="trip-meta">
+    <div class="item"><b>2 Adultos + 1 Niño</b>Viajantes</div>
+    <div class="divider"></div>
+    <div class="item"><b>42 · 20 · 13 años</b>Edades</div>
+    <div class="divider"></div>
+    <div class="item"><b>7 ciudades</b>3 países</div>
+  </div>
+
+  <div class="scroll-hint">Ver itinerario</div>
+</section>
+
+<!-- ============ ROUTE ============ -->
+<section class="route-section">
+  <div class="section-heading">
+    <div class="eyebrow">La ruta</div>
+    <h2>De Tokio a Hong Kong</h2>
+  </div>
+  <div class="route">
+    <div class="route-track"></div>
+    <div class="stop"><div class="dot"></div><div class="country">Japón</div><div class="city">Tokio</div></div>
+    <div class="stop"><div class="dot"></div><div class="country">Japón</div><div class="city">Kioto</div></div>
+    <div class="stop"><div class="dot"></div><div class="country">Japón</div><div class="city">Osaka</div></div>
+    <div class="stop"><div class="dot"></div><div class="country">Corea del Sur</div><div class="city">Seúl</div></div>
+    <div class="stop"><div class="dot"></div><div class="country">China</div><div class="city">Pekín</div></div>
+    <div class="stop"><div class="dot"></div><div class="country">China</div><div class="city">Shanghái</div></div>
+    <div class="stop"><div class="dot"></div><div class="country">China</div><div class="city">Hong Kong</div></div>
+  </div>
+</section>
+
+<!-- ============ JAPÓN ============ -->
+<section class="country" data-mark="日本">
+  <div class="country-inner">
+    <div class="country-title"><h2>Japón</h2><span class="flagtag">3 ciudades</span></div>
+
+    <!-- TOKIO -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">1</span><h3>Tokio</h3></div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li><span class="emo">🌃</span>Cruzar Shibuya Crossing de noche.</li>
+          <li><span class="emo">🗼</span>Subir al Tokyo Skytree al atardecer.</li>
+          <li><span class="emo">✨</span>Visitar teamLab Planets.</li>
+          <li><span class="emo">🍣</span>Comer sushi de alta calidad.</li>
+          <li><span class="emo">🎮</span>Pasear por Akihabara.</li>
+          <li><span class="emo">🌸</span>Visitar el santuario Meiji Jingu.</li>
+          <li><span class="emo">🚅</span>Montar en el Shinkansen.</li>
+          <li><span class="emo">🌙</span>Explorar Omoide Yokocho y Golden Gai.</li>
+        </ul>
+        <div class="food-panel">
+          <h4>Comida en Tokio</h4>
+          <div class="food-grid">
+            <span class="food-chip">🍣 Sushi (preferiblemente un omakase)</span>
+            <span class="food-chip">🍜 Ramen (tonkotsu, shoyu o miso)</span>
+            <span class="food-chip">🥩 Wagyu japonés</span>
+            <span class="food-chip">🍢 Yakitori (brochetas de pollo)</span>
+            <span class="food-chip">🍛 Curry japonés</span>
+            <span class="food-chip">🍱 Bento</span>
+            <span class="food-chip">🐙 Takoyaki</span>
+            <span class="food-chip">🍡 Dango</span>
+            <span class="food-chip">🐟 Taiyaki</span>
+            <span class="food-chip">🍰 Cheesecake japonés</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KIOTO -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">2</span><h3>Kioto</h3></div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li><span class="emo">⛩️</span>Caminar entre los miles de torii de Fushimi Inari.</li>
+          <li><span class="emo">🎋</span>Recorrer el bosque de bambú de Arashiyama.</li>
+          <li><span class="emo">🏯</span>Ver el Pabellón Dorado (Kinkaku-ji).</li>
+          <li><span class="emo">👘</span>Pasear por Gion con suerte de ver una geisha.</li>
+          <li><span class="emo">🍵</span>Participar en una ceremonia del té.</li>
+          <li><span class="emo">🌸</span>Alquilar un kimono para recorrer el casco histórico.</li>
+        </ul>
+        <div class="food-panel">
+          <h4>Comida en Kioto</h4>
+          <div class="food-grid">
+            <span class="food-chip">🍱 Kaiseki (menú tradicional)</span>
+            <span class="food-chip">🥬 Yudofu (tofu hervido)</span>
+            <span class="food-chip">🍵 Matcha de Uji</span>
+            <span class="food-chip">🍦 Helado de matcha</span>
+            <span class="food-chip">🍡 Mochi</span>
+            <span class="food-chip">🍪 Yatsuhashi (dulce típico)</span>
+            <span class="food-chip">🍵 Té verde premium</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OSAKA -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">3</span><h3>Osaka</h3></div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li><span class="emo">🍜</span>Comer takoyaki y okonomiyaki.</li>
+          <li><span class="emo">🌃</span>Pasear por Dotonbori de noche.</li>
+          <li><span class="emo">🏰</span>Visitar el Castillo de Osaka.</li>
+          <li><span class="emo">🎢</span>Pasar un día en Universal Studios Japan.</li>
+          <li><span class="emo">🍣</span>Probar comida callejera en Kuromon Market.</li>
+          <li><span class="emo">🌆</span>Subir al Umeda Sky Building.</li>
+        </ul>
+        <div class="food-panel">
+          <h4>Comida en Osaka</h4>
+          <div class="food-grid">
+            <span class="food-chip">🐙 Takoyaki</span>
+            <span class="food-chip">🥞 Okonomiyaki</span>
+            <span class="food-chip">🍢 Kushikatsu</span>
+            <span class="food-chip">🥩 Yakiniku</span>
+            <span class="food-chip">🍜 Kitsune Udon</span>
+            <span class="food-chip">🥟 Gyozas</span>
+            <span class="food-chip">🧅 Negiyaki</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOTELES JAPON -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">🏨</span><h3>Cambios de hotel</h3></div>
+
+      <div class="hotel-row">
+        <div class="tag">Tokio</div>
+        <div class="old">Chisun Hotel Kamata</div>
+        <div class="arrow">→</div>
+        <div class="new">Hotel Metropolitan Tokyo Ikebukuro
+          <span class="hotel-meta">Habitación estándar con cama extra · Alojamiento y desayuno · <span class="smoke-yes">Se puede fumar</span></span>
+        </div>
+        <div class="price">+549€</div>
+      </div>
+
+      <div class="hotel-row">
+        <div class="tag">Kioto</div>
+        <div class="old">M'S Hotel Sanjo Omiya</div>
+        <div class="arrow">→</div>
+        <div class="new">Hotel Monterey Kyoto
+          <span class="hotel-meta">Habitación Superior · Alojamiento y desayuno · <span class="smoke-yes">Se puede fumar</span></span>
+        </div>
+        <div class="price">+273€</div>
+      </div>
+
+      <div class="hotel-row">
+        <div class="tag">Osaka</div>
+        <div class="old">Hotel Hillarys</div>
+        <div class="arrow">→</div>
+        <div class="new">Hearton Hotel Kitaumeda
+          <span class="hotel-meta">Habitación Estándar · Alojamiento y desayuno · <span class="smoke-no">No se puede fumar</span></span>
+        </div>
+        <div class="price">+102€</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COREA ============ -->
+<section class="country" data-mark="한국">
+  <div class="country-inner">
+    <div class="country-title"><h2>Corea del Sur</h2><span class="flagtag">1 ciudad</span></div>
+
+    <div class="city-block">
+      <div class="city-head"><span class="num">4</span><h3>Seúl</h3></div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li><span class="emo">👘</span>Ponerte un hanbok y visitar el Palacio Gyeongbokgung.</li>
+          <li><span class="emo">🛍️</span>Comprar cosmética en Myeongdong.</li>
+          <li><span class="emo">🌇</span>Ver la ciudad desde la N Seoul Tower.</li>
+          <li><span class="emo">🏡</span>Pasear por Bukchon Hanok Village.</li>
+          <li><span class="emo">🍗</span>Probar el pollo frito coreano y la barbacoa coreana.</li>
+          <li><span class="emo">🎤</span>Ir a un karaoke (noraebang).</li>
+          <li><span class="emo">🌃</span>Descubrir Hongdae por la noche.</li>
+        </ul>
+        <div class="food-panel">
+          <h4>Comida en Seúl</h4>
+          <div class="food-grid">
+            <span class="food-chip">🥩 Barbacoa coreana (KBBQ)</span>
+            <span class="food-chip">🍚 Bibimbap</span>
+            <span class="food-chip">🌶️ Tteokbokki</span>
+            <span class="food-chip">🍗 Pollo frito coreano</span>
+            <span class="food-chip">🍜 Ramyeon</span>
+            <span class="food-chip">🥟 Mandu</span>
+            <span class="food-chip">🥬 Kimchi</span>
+            <span class="food-chip">🍖 Galbi</span>
+            <span class="food-chip">🍢 Eomuk (brochetas de pescado)</span>
+            <span class="food-chip">🍧 Bingsu (postre)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="city-block">
+      <div class="city-head"><span class="num">🏨</span><h3>Cambio de hotel</h3></div>
+      <div class="hotel-row">
+        <div class="tag">Seúl</div>
+        <div class="old">Three Seven Hotel</div>
+        <div class="arrow">→</div>
+        <div class="new">Zip Hotel
+          <span class="hotel-meta">Habitación Deluxe · Alojamiento y desayuno · <span class="smoke-yes">Se puede fumar</span></span>
+        </div>
+        <div class="price">+102€</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHINA ============ -->
+<section class="country" data-mark="中国">
+  <div class="country-inner">
+    <div class="country-title"><h2>China</h2><span class="flagtag">3 ciudades</span></div>
+
+    <!-- PEKIN -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">5</span><h3>Pekín</h3></div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li><span class="emo">🏯</span>Recorrer la Ciudad Prohibida.</li>
+          <li><span class="emo">🧱</span>Caminar por la Gran Muralla China.</li>
+          <li><span class="emo">🌳</span>Visitar el Templo del Cielo.</li>
+          <li><span class="emo">🛍️</span>Pasear por Wangfujing.</li>
+          <li><span class="emo">🦆</span>Comer auténtico pato laqueado.</li>
+          <li><span class="emo">🚲</span>Recorrer los hutongs en bicicleta.</li>
+        </ul>
+        <div class="food-panel">
+          <h4>Comida en Pekín</h4>
+          <div class="food-grid">
+            <span class="food-chip">🦆 Pato laqueado de Pekín</span>
+            <span class="food-chip">🍜 Zhajiangmian</span>
+            <span class="food-chip">🌯 Jianbing</span>
+            <span class="food-chip">🥟 Jiaozi</span>
+            <span class="food-chip">🥟 Baozi</span>
+            <span class="food-chip">🍖 Cordero al estilo pekinés</span>
+            <span class="food-chip">🍬 Tanghulu (fruta caramelizada)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHANGHAI -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">6</span><h3>Shanghái</h3></div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li><span class="emo">🌃</span>Pasear por el Bund de noche.</li>
+          <li><span class="emo">🏙️</span>Subir a la Shanghai Tower.</li>
+          <li><span class="emo">🌺</span>Visitar el Jardín Yuyuan.</li>
+          <li><span class="emo">🛍️</span>Comprar en Nanjing Road.</li>
+          <li><span class="emo">🚢</span>Hacer un crucero nocturno por el río Huangpu.</li>
+          <li><span class="emo">☕</span>Disfrutar de cafeterías con vistas a los rascacielos.</li>
+        </ul>
+        <div class="food-panel">
+          <h4>Comida en Shanghái</h4>
+          <div class="food-grid">
+            <span class="food-chip">🥟 Xiaolongbao</span>
+            <span class="food-chip">🥟 Shengjianbao</span>
+            <span class="food-chip">🦀 Cangrejo peludo (en temporada)</span>
+            <span class="food-chip">🥩 Hong Shao Rou (cerdo estofado)</span>
+            <span class="food-chip">🍜 Fideos estilo Shanghái</span>
+            <span class="food-chip">🍤 Gambas salteadas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HONG KONG -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">7</span><h3>Hong Kong</h3></div>
+      <div class="two-col">
+        <ul class="checklist">
+          <li><span class="emo">🚠</span>Subir en teleférico a Ngong Ping.</li>
+          <li><span class="emo">🛕</span>Visitar el Gran Buda Tian Tan.</li>
+          <li><span class="emo">🌇</span>Ver el atardecer desde Victoria Peak.</li>
+          <li><span class="emo">✨</span>Disfrutar del espectáculo Symphony of Lights.</li>
+          <li><span class="emo">🍜</span>Comer dim sum auténtico.</li>
+          <li><span class="emo">🛍️</span>Pasear por Temple Street Night Market.</li>
+          <li><span class="emo">🚢</span>Cruzar la bahía en el Star Ferry.</li>
+          <li><span class="emo">🏖️</span>Relajarte en playas como Repulse Bay.</li>
+        </ul>
+        <div class="food-panel">
+          <h4>Comida en Hong Kong</h4>
+          <div class="food-grid">
+            <span class="food-chip">🥟 Dim Sum</span>
+            <span class="food-chip">🦆 Ganso asado</span>
+            <span class="food-chip">🍍 Pineapple Bun (bolo bao)</span>
+            <span class="food-chip">🥧 Egg Tart (tarta de huevo)</span>
+            <span class="food-chip">🍜 Wonton Noodles</span>
+            <span class="food-chip">🍚 Clay Pot Rice</span>
+            <span class="food-chip">🥭 Mango Sago (postre)</span>
+            <span class="food-chip">🧋 Té con leche estilo Hong Kong</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOTELES CHINA -->
+    <div class="city-block">
+      <div class="city-head"><span class="num">🏨</span><h3>Cambios de hotel</h3></div>
+
+      <div class="hotel-row">
+        <div class="tag">Pekín</div>
+        <div class="old">Holiday Inn Express Beijing Temple Of Heaven By Ihg</div>
+        <div class="arrow">→</div>
+        <div class="new">Guo Ji Yi Yuan Hotel
+          <span class="hotel-meta">Habitación Deluxe · Alojamiento y desayuno · <span class="smoke-no">No se puede fumar</span></span>
+        </div>
+        <div class="price">+117€</div>
+      </div>
+
+      <div class="hotel-row">
+        <div class="tag">Shanghái</div>
+        <div class="old">Sin cambio</div>
+        <div class="arrow">=</div>
+        <div class="new">Dorsett Shanghái
+          <span class="hotel-meta">Habitación Deluxe con vista a la ciudad y cama compartida · Alojamiento y desayuno · <span class="smoke-yes">Se puede fumar</span></span>
+        </div>
+        <div class="price">+0€</div>
+      </div>
+
+      <div class="hotel-row">
+        <div class="tag">Hong Kong</div>
+        <div class="old">Best Western Plus Hotel Hong Kong</div>
+        <div class="arrow">→</div>
+        <div class="new">Cosmo Hotel Hong Kong
+          <span class="hotel-meta">Habitación Estándar · Alojamiento y desayuno · <span class="smoke-yes">Se puede fumar</span></span>
+        </div>
+        <div class="price">+3€</div>
+      </div>
+
+      <div class="increase-banner">Incremento de precio por los cambios: <b>&nbsp;597€</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OBLIGATORIO ============ -->
+<section class="must">
+  <div class="must-inner">
+    <div class="eyebrow">Lo innegociable</div>
+    <h2>En conclusión, esto lo tenemos que hacer obligatoriamente</h2>
+    <p class="sub">Nueve experiencias que sí o sí entran en el viaje.</p>
+    <div class="must-grid">
+      <div class="must-card"><span class="emo">🚅</span><p>Viajar en el Shinkansen japonés.</p></div>
+      <div class="must-card"><span class="emo">🍣</span><p>Comer sushi en Japón.</p></div>
+      <div class="must-card"><span class="emo">🍖</span><p>Probar una auténtica barbacoa coreana.</p></div>
+      <div class="must-card"><span class="emo">🧱</span><p>Caminar por la Gran Muralla China.</p></div>
+      <div class="must-card"><span class="emo">🌃</span><p>Ver los rascacielos de Shanghái de noche.</p></div>
+      <div class="must-card"><span class="emo">🌆</span><p>Contemplar el skyline de Hong Kong desde Victoria Peak.</p></div>
+      <div class="must-card"><span class="emo">👘</span><p>Vestirte con kimono en Kioto y hanbok en Seúl.</p></div>
+      <div class="must-card"><span class="emo">🎮</span><p>Visitar Super Nintendo World en Osaka.</p></div>
+      <div class="must-card"><span class="emo">✨</span><p>Entrar en teamLab Planets en Tokio.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PREMIUM ============ -->
+<section class="premium">
+  <div class="section-heading">
+    <div class="eyebrow">Para darse un lujo</div>
+    <h2>Experiencias "premium"</h2>
+  </div>
+  <div class="premium-grid">
+    <div class="premium-card"><span class="emo">🚁</span><p>Vuelo en helicóptero sobre Tokio.</p></div>
+    <div class="premium-card"><span class="emo">🎢</span><p>Super Nintendo World (Osaka).</p></div>
+    <div class="premium-card"><span class="emo">✨</span><p>teamLab Planets (Tokio).</p></div>
+    <div class="premium-card"><span class="emo">🏰</span><p>Disneyland (Tokio, Shanghái o Hong Kong).</p></div>
+    <div class="premium-card"><span class="emo">🚢</span><p>Crucero nocturno por Shanghái.</p></div>
+    <div class="premium-card"><span class="emo">🌇</span><p>Victoria Peak + cena con vistas en Hong Kong.</p></div>
+    <div class="premium-card"><span class="emo">🦆</span><p>Cena de pato laqueado en Pekín.</p></div>
+    <div class="premium-card"><span class="emo">🍖</span><p>Barbacoa coreana premium en Seúl.</p></div>
+    <div class="premium-card"><span class="emo">🍵</span><p>Ceremonia del té tradicional en Kioto.</p></div>
+    <div class="premium-card"><span class="emo">🧱</span><p>Subir en teleférico y recorrer la Gran Muralla en Pekín.</p></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="stamp">
+    <span>VIAJE 2026</span>
+    <span>✈️</span>
+  </div>
+  <p>24 días · Japón, Corea del Sur y China · Salida 01/09/2026 desde Barcelona – El Prat.</p>
+  <p class="att">Bueno ahora sí a disfrutar el viaje jaja, att Juanca</p>
+</footer>
+
+</body>
+</html>
