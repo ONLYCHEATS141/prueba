@@ -190,6 +190,87 @@
     font-size:1.25rem; font-weight:700; color:var(--paper);
   }
 
+  /* ---------- Flights ---------- */
+  .flights-section{
+    padding:6rem 6vw;
+    max-width:1180px; margin:0 auto;
+    border-top:1px solid var(--line);
+  }
+  .flights-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    gap:1.2rem;
+    margin-top:3rem;
+  }
+  .boarding-pass{
+    position:relative;
+    display:grid;
+    grid-template-columns: 1fr 84px;
+    background:linear-gradient(160deg, var(--paper-2), var(--paper));
+    color:var(--ink);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .bp-main{
+    padding:1.5rem 1.6rem;
+    position:relative;
+  }
+  .bp-main .bp-num{
+    font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--seal-2); font-weight:700; margin-bottom:0.9rem; display:block;
+  }
+  .bp-route{
+    display:flex; align-items:center; gap:0.7rem;
+    font-family:'Noto Serif JP', serif;
+    font-size:1.15rem; font-weight:700;
+    margin-bottom:1rem;
+    flex-wrap:wrap;
+  }
+  .bp-route .plane{ color:var(--seal-2); font-size:1.1rem; flex-shrink:0; }
+  .bp-route .city-name{ white-space:nowrap; }
+  .bp-route .via{
+    font-size:0.72rem; font-weight:600; color:rgba(15,18,16,0.45);
+    font-family:'Inter',sans-serif; letter-spacing:0.02em;
+  }
+  .bp-details{
+    display:flex; gap:1.6rem; flex-wrap:wrap;
+    font-size:0.85rem; color:rgba(15,18,16,0.65);
+  }
+  .bp-details .duration{
+    font-weight:700; color:var(--ink);
+  }
+  .bp-details .stops{
+    display:inline-flex; align-items:center; gap:0.35rem;
+  }
+  .bp-details .dot-stop{
+    width:6px; height:6px; border-radius:50%; background:var(--seal);
+  }
+  .bp-details .direct{ color:var(--tea); font-weight:600; }
+  .bp-stub{
+    background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    border-left:2px dashed rgba(15,18,16,0.25);
+  }
+  .bp-stub::before, .bp-stub::after{
+    content:""; position:absolute; width:18px; height:18px; border-radius:50%;
+    background:var(--ink-2); left:-9px;
+  }
+  .bp-stub::before{ top:-9px; }
+  .bp-stub::after{ bottom:-9px; }
+  .bp-stub .tkt{
+    font-family:'Noto Serif JP', serif;
+    color:var(--gold);
+    font-size:0.95rem;
+    transform:rotate(-90deg);
+    white-space:nowrap;
+    letter-spacing:0.15em;
+  }
+  @media (max-width:600px){
+    .boarding-pass{grid-template-columns:1fr 50px;}
+    .bp-stub .tkt{font-size:0.7rem;}
+  }
+
   /* ---------- Country sections ---------- */
   .country{
     padding:5rem 6vw;
@@ -460,6 +541,120 @@
     <div class="stop"><div class="dot"></div><div class="country">China</div><div class="city">Pekín</div></div>
     <div class="stop"><div class="dot"></div><div class="country">China</div><div class="city">Shanghái</div></div>
     <div class="stop"><div class="dot"></div><div class="country">China</div><div class="city">Hong Kong</div></div>
+  </div>
+</section>
+
+<!-- ============ VUELOS ============ -->
+<section class="flights-section">
+  <div class="section-heading">
+    <div class="eyebrow">Vuelos</div>
+    <h2>Cómo nos movemos entre países</h2>
+  </div>
+
+  <div class="flights-grid">
+
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <span class="bp-num">Vuelo 1</span>
+        <div class="bp-route">
+          <span class="plane">✈️</span>
+          <span class="city-name">Barcelona</span>
+          <span class="via">→</span>
+          <span class="city-name">Tokyo · Narita</span>
+        </div>
+        <div class="bp-details">
+          <span class="duration">21h 5m</span>
+          <span class="stops"><span class="dot-stop"></span>1 escala</span>
+        </div>
+      </div>
+      <div class="bp-stub"><span class="tkt">BOARDING</span></div>
+    </div>
+
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <span class="bp-num">Vuelo 2</span>
+        <div class="bp-route">
+          <span class="plane">✈️</span>
+          <span class="city-name">Aeropuerto de Kobe</span>
+          <span class="via">→</span>
+          <span class="city-name">Seúl · Incheon</span>
+        </div>
+        <div class="bp-details">
+          <span class="duration">1h 55m</span>
+          <span class="direct">Vuelo directo</span>
+        </div>
+      </div>
+      <div class="bp-stub"><span class="tkt">BOARDING</span></div>
+    </div>
+
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <span class="bp-num">Vuelo 3</span>
+        <div class="bp-route">
+          <span class="plane">✈️</span>
+          <span class="city-name">Pekín · Daxing</span>
+          <span class="via">→</span>
+          <span class="city-name">Shanghái · Hongqiao</span>
+        </div>
+        <div class="bp-details">
+          <span class="duration">7h 30m</span>
+          <span class="stops"><span class="dot-stop"></span>1 escala</span>
+        </div>
+      </div>
+      <div class="bp-stub"><span class="tkt">BOARDING</span></div>
+    </div>
+
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <span class="bp-num">Vuelo 4</span>
+        <div class="bp-route">
+          <span class="plane">✈️</span>
+          <span class="city-name">Pekín · Daxing</span>
+          <span class="via">→</span>
+          <span class="city-name">Shanghái · Hongqiao</span>
+        </div>
+        <div class="bp-details">
+          <span class="duration">2h 20m</span>
+          <span class="direct">Vuelo directo</span>
+        </div>
+      </div>
+      <div class="bp-stub"><span class="tkt">BOARDING</span></div>
+    </div>
+
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <span class="bp-num">Vuelo 5</span>
+        <div class="bp-route">
+          <span class="plane">✈️</span>
+          <span class="city-name">Shanghái · Pudong</span>
+          <span class="via">→</span>
+          <span class="city-name">Hong Kong</span>
+        </div>
+        <div class="bp-details">
+          <span class="duration">2h 50m</span>
+          <span class="direct">Vuelo directo</span>
+        </div>
+      </div>
+      <div class="bp-stub"><span class="tkt">BOARDING</span></div>
+    </div>
+
+    <div class="boarding-pass">
+      <div class="bp-main">
+        <span class="bp-num">Vuelo 6</span>
+        <div class="bp-route">
+          <span class="plane">✈️</span>
+          <span class="city-name">Hong Kong</span>
+          <span class="via">→</span>
+          <span class="city-name">Barcelona</span>
+        </div>
+        <div class="bp-details">
+          <span class="duration">17h 55m</span>
+          <span class="stops"><span class="dot-stop"></span>1 escala</span>
+        </div>
+      </div>
+      <div class="bp-stub"><span class="tkt">BOARDING</span></div>
+    </div>
+
   </div>
 </section>
 
